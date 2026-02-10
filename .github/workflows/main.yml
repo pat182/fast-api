@@ -9,6 +9,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PROJECT_NAME: "fast-api-test"
+      DEBUG: "true"
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: "localhost"
+      DB_PORT: "5432"
+      DB_NAME: "testdb"
+      JWT_HASHING_ALGORITHM: "HS256"
+      JWT_MINUTES: "15"
+      JWT_REFRESH_DAYS: "7"
 
     steps:
     - name: Checkout code
@@ -17,7 +29,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: "3.13"
 
     - name: Install dependencies
       run: |
