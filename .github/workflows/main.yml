@@ -18,7 +18,7 @@ jobs:
       DB_HOST: "sqlite"
       DB_USER: ""        # optional, safe default
       DB_PASSWORD: ""    # optional, safe default
-      DB_PORT: ""        # optional, safe default
+      DB_PORT: 0        # optional, safe default
       DB_NAME: ""        # optional, safe default
       JWT_HASHING_ALGORITHM: "HS256"
       JWT_MINUTES: "15"
