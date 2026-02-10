@@ -9,14 +9,31 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: ${{ secrets.DB_USER }}
+          MYSQL_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     env:
       PROJECT_NAME: "fast-api-test"
       DEBUG: "true"
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       DB_USER: ${{ secrets.DB_USER }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      DB_HOST: "localhost"
-      DB_PORT: "5432"
+      DB_HOST: "127.0.0.1"
+      DB_PORT: "3306"
       DB_NAME: "testdb"
       JWT_HASHING_ALGORITHM: "HS256"
       JWT_MINUTES: "15"
@@ -37,6 +54,12 @@ jobs:
         pip install -r requirements.txt
         pip install -r requirements-dev.txt || true
 
-    - name: Run tests
+    - name: Wait for MySQL
       run: |
-        pytest --maxfail=1 --disable-warnings -q
+        until mysqladmin ping -h127.0.0.1 --silent; do
+          echo "Waiting for MySQL..."
+          sleep 5
+        done
+
+    - name: Run tests
+      run: pytest --maxfail=1 --disable-warnings -q
