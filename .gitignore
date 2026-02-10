@@ -20,3 +20,7 @@ htmlcov/
 # OS files
 .DS_Store
 Thumbs.db
+
+# IDE settings
+.idea/
+.vscode/
