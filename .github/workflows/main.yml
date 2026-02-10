@@ -14,7 +14,12 @@ jobs:
       PROJECT_NAME: "fast-api-test"
       DEBUG: "true"
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      # Force SQLite in CI so tests don’t try to connect to MySQL/Postgres
       DB_HOST: "sqlite"
+      DB_USER: ""        # optional, safe default
+      DB_PASSWORD: ""    # optional, safe default
+      DB_PORT: ""        # optional, safe default
+      DB_NAME: ""        # optional, safe default
       JWT_HASHING_ALGORITHM: "HS256"
       JWT_MINUTES: "15"
       JWT_REFRESH_DAYS: "7"

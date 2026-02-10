@@ -23,10 +23,9 @@ class Settings(BaseSettings):
     JWT_REFRESH_DAYS : int
 
     @property
-    def database_url(self) -> str:
-        if self.DB_HOST == "sqlite":
-            return "sqlite:///:memory:"
-        return f"mysql+pymysql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
+    def use_sqlite(self) -> bool:
+        """Return True if CI/test mode should use SQLite instead of MySQL."""
+        return self.DB_HOST == "sqlite"
 
 
 settings = Settings()
