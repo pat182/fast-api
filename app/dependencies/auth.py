@@ -7,13 +7,15 @@ from app.core.security import SecurityInstance
 from app.db.database import get_db
 from app.db.models import User
 from app.exceptions import UnAuthorized
+from app.db.repositories import UserRepo
 
 def auth_user(request: Request, db: Session = Depends(get_db)) -> type[User]:
 
     payload = SecurityInstance.token_validation(request)
 
     user_id = payload["sub"]
-    user = db.query(User).filter(User.id == user_id).first()
+    user = UserRepo(db).get_by_id(user_id)
+
     if user is None:
         raise UnAuthorized("User not found",404)
 

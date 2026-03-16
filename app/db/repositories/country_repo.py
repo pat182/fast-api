@@ -1,15 +1,15 @@
 
 from sqlalchemy.orm import Session, Query
 from app.db.models import Country
+from app.core.base_repo import BaseRepo
 from sqlalchemy import exists
 
-class CountryRepository:
+class CountryRepository(BaseRepo):
 
-    def __init__(self, db: Session) :
-        self.db = db
+    @property
+    def model(self):
+        return Country
 
-    def get_by_id(self, country_id: int) -> Country | None :
-        return self.db.query(Country).filter(Country.id == country_id).one_or_none()
 
 
 

@@ -1,8 +1,8 @@
 from typing import Optional
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime
-from app.schemas.role import RoleResponse
-from app.schemas.parlon import ParlonResponse
+from app.return_schemas.role import RoleResponse
+from app.return_schemas.parlon import ParlonResponse
 
 class UserResponse(BaseModel):
     id: int

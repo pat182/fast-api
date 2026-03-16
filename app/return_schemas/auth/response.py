@@ -1,7 +1,7 @@
 from typing import Optional,Union
 
 from pydantic import BaseModel
-from app.schemas.user.response import UserResponse
+from app.return_schemas.user.response import UserResponse
 
 
 

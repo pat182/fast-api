@@ -1,6 +1,6 @@
 import uuid
 
-from sqlalchemy import Column, String, ForeignKey, DateTime, func
+from sqlalchemy import Column, String, ForeignKey, DateTime, func, Boolean, text
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -13,8 +13,13 @@ class Parlon(Base):
     business_name = Column(String(255), nullable=False, index=True)
     country_id = Column(ForeignKey("countries.id"), nullable=False)
     logo = Column(String(255), nullable=True)
+    visibility = Column(Boolean, nullable=False, server_default=text('false'))
     create_date = Column(DateTime, server_default=func.now(), nullable=False)
     update_date = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
 
     users = relationship("User", back_populates="parlon")
     country = relationship("Country", back_populates="parlons")
+    parlon_categories = relationship("ParlonCategories", back_populates="parlon")
+
+
+
