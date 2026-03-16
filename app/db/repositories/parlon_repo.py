@@ -1,49 +1,41 @@
-from sqlalchemy.orm import Session, Query
-from app.db.models import Parlon
 
-class ParlonRepository:
+# from sqlalchemy.sql.annotation import Annotated
 
-    def __init__(self, db: Session) :
-        self.db = db
+from app.db.models import Parlon, ParlonCategories
+from app.core.base_repo import BaseRepo
+from app.return_schemas import ParlonUpdateRequest,ParlonRequest
 
-    def create_parlon(self, business_name: str, country_id: int) -> Parlon:
-        new_parlon = Parlon(business_name=business_name, country_id=country_id)
+class ParlonRepository(BaseRepo):
+
+    @property
+    def model(self):
+        return Parlon
+
+    def apply_search(self, query, search: str | None):
+        if search:
+            return query.filter(self.model.business_name.ilike(f"%{search}%"))
+        return query
+
+    def create_parlon(self,request: ParlonRequest):
+
+        parlon_data = request.model_dump(exclude={"category_ids"})
+        new_parlon = self.model(**parlon_data)
+
+        for cat_id in request.category_ids:
+            new_parlon.parlon_categories.append(ParlonCategories(main_category_id=cat_id))
+
         self.db.add(new_parlon)
-        self.db.commit()
-        self.db.refresh(new_parlon)
+
         return new_parlon
-
-    def query(self) -> Query[type[Parlon]]:
-        return self.db.query(Parlon)
-
+    #
     def get_by_business_name_country_id(self, business_name: str, country_id: int) -> Parlon | None :
         return self.db.query(Parlon).filter(
             Parlon.business_name == business_name,
             Parlon.country_id == country_id
         ).one_or_none()
 
-    def filter_parlon(self,page: int, page_size: int, sort_by: str | None,sort_order: str | None,search: str | None
-    ) -> tuple[list[type[Parlon]], int]:
-        query = self.db.query(Parlon)
 
-        if search:
-            query = query.filter(Parlon.business_name.ilike(f"%{search}%"))
 
-        if sort_by:
-            sort_col = getattr(Parlon, sort_by, None)
-            if sort_col is not None:
-                if sort_order == "asc":
-                    query = query.order_by(sort_col.asc())
-                else:
-                    query = query.order_by(sort_col.desc())
-
-        total = query.count()
-        data = query.offset((page - 1) * page_size).limit(page_size).all()
-
-        return data, total
-
-    def get_by_uuid(self,uuid:str) -> Parlon | None :
-        return self.db.query(Parlon).filter(Parlon.id == uuid).one_or_none()
 
 
 

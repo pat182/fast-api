@@ -1,6 +1,9 @@
 from sqlalchemy.orm import Session
+from app.core.base_repo import BaseRepo
+from app.db.models.user import User
 
+class UserRepo(BaseRepo):
 
-class UserRepo:
-    def __init__(self, db: Session):
-        self.db = db
+    @property
+    def model(self):
+        return User

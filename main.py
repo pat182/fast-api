@@ -7,7 +7,7 @@ from app.core.config import settings
 from app.core.base_exception import AppException
 
 from app.api.routes import router as test_router
-from app.api.v1 import auth_router, user_router, parlon_router
+from app.api.v1 import auth_router, user_router, parlon_router,main_category_router
 
 
 app = FastAPI(title=settings.PROJECT_NAME)
@@ -29,6 +29,7 @@ app.include_router(test_router)
 app.include_router(auth_router)
 app.include_router(user_router)
 app.include_router(parlon_router)
+app.include_router(main_category_router)
 
 @app.exception_handler(AppException)
 async def app_exception_handler(request: Request, exc: AppException):

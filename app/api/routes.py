@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from app.core.config import settings
 from app.db.models import User
 from app.dependencies import check_roles
-from app.schemas import UserResponse
+from app.return_schemas import UserResponse
 
 router = APIRouter(
     prefix=f"{settings.API_PREFIX}/v1/me",

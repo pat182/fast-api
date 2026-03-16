@@ -35,8 +35,8 @@ def upgrade() -> None:
 
     op.bulk_insert(users_table, [
         {"email": "thebackdoors182@gmail.com", "password": pw, "role_id": 1, "verified": True, "parlon_id": None},
-        {"email": "patrickc@parlon.ph", "password": pw, "role_id": 2, "verified": True, "parlon_id": "4111fbae-07b3-4858-bf67-14db596c4337"},
-        {"email": "patrick.chua182@gmail.com", "password": pw, "role_id": 3, "verified": True, "parlon_id": "4111fbae-07b3-4858-bf67-14db596c4337"},
+        # {"email": "patrickc@parlon.ph", "password": pw, "role_id": 2, "verified": True, "parlon_id": "4111fbae-07b3-4858-bf67-14db596c4337"},
+        # {"email": "patrick.chua182@gmail.com", "password": pw, "role_id": 3, "verified": True, "parlon_id": "4111fbae-07b3-4858-bf67-14db596c4337"},
     ])
 
 

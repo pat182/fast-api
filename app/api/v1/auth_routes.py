@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Response,Request,Cookie
 from sqlalchemy.orm import Session
 
 from app.core.security import SecurityInstance
-from app.schemas import LoginRequest, TokenResponse, UserResponse,Tokens,AppTokens
+from app.return_schemas import LoginRequest, TokenResponse, UserResponse,Tokens,AppTokens
 from app.db.database import get_db
 from app.core.config import settings
 from app.utils.helper import set_auth_cookies,clear_auth_cookies
